@@ -96,14 +96,14 @@ contract VionNFTPresale is Ownable2Step {
     /// @notice Purchases NFT with ETH
     /// @param quantity The number of the nfts you want to purchase
     function purchaseNFWithETH(uint256 quantity) external payable {
-        if (quantity + vioNFT.totalSupply() > TOTAL_NFTS) {
+        if (quantity + vioNFT.totalSupply() >= TOTAL_NFTS) {
             revert MaxNftsMinted(TOTAL_NFTS - quantity);
         }
 
-        uint256 priceInEth = quantity *
-            (((NFT_PRICE * 10 ** NORMALIZATION_FACTOR)) / getLatestPrice());
+        uint256 priceInEth = (NFT_PRICE * (10 ** NORMALIZATION_FACTOR)) /
+            getLatestPrice();
 
-        if (msg.value < priceInEth) {
+        if (msg.value < quantity * priceInEth) {
             revert IncorrectInvestmentAmount();
         }
 
@@ -115,7 +115,7 @@ contract VionNFTPresale is Ownable2Step {
     /// @notice Purchases NFT with USDT
     /// @param quantity The number of the nfts you want to purchase
     function purchaseNFTWithUSDT(uint256 quantity) external {
-        if (quantity + vioNFT.totalSupply() > TOTAL_NFTS) {
+        if (quantity + vioNFT.totalSupply() >= TOTAL_NFTS) {
             revert MaxNftsMinted(TOTAL_NFTS - quantity);
         }
 
@@ -149,7 +149,7 @@ contract VionNFTPresale is Ownable2Step {
     ) external onlyOwner {
         AggregatorV3Interface oldPriceFeed = priceFeed;
 
-        if (address(oldPriceFeed) == address(0)) {
+        if (address(priceFeedAddress) == address(0)) {
             revert ZeroAddress();
         }
 

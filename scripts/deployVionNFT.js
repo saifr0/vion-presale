@@ -25,12 +25,12 @@ async function main() {
   console.log("VionNFT deployed to:", VionNFT.target);
 
   await new Promise((resolve) => setTimeout(resolve, 20000));
+  console.log("Verifying..");
   verify(VionNFT.target, [
     "VION Genesis Validator",
     "VION Genesis Validator",
     owner,
   ]);
-  console.log("Verified..");
 }
 
 main();

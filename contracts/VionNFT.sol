@@ -41,7 +41,7 @@ contract VionNFT is ERC721A, Ownable2Step {
     function updatePresaleContract(address presaleAddress) external onlyOwner {
         address oldPresale = presale;
 
-        if (oldPresale == presale) {
+        if (oldPresale == presaleAddress) {
             revert IdenticalValue();
         }
 
