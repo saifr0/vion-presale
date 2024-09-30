@@ -10,8 +10,13 @@ contract VionNFT is ERC721A, Ownable2Step {
     /// @notice The address of presale contract
     address public presale;
 
+    /// @notice The baseURI
+    string public baseUri;
+
     /// @dev Emitted when presale contract is updated
     event PresaleContractUpdated(address oldAddress, address newAddress);
+
+    event BaseUriChanged(string baseURI);
 
     /// @notice Thrown when updating variable with zero value or address
     error ZeroAddress();
@@ -34,6 +39,20 @@ contract VionNFT is ERC721A, Ownable2Step {
         }
 
         _mint(to, quantity);
+    }
+
+    function setBaseURI(string memory baseURI_) external onlyOwner {
+        baseUri = baseURI_;
+        emit BaseUriChanged({baseURI: baseURI_});
+    }
+
+    /**
+     * @dev Base URI for computing {tokenURI}. If set, the resulting URI for each
+     * token will be the concatenation of the `baseURI` and the `tokenId`. Empty
+     * by default
+     */
+    function _baseURI() internal view override returns (string memory) {
+        return baseUri;
     }
 
     /// @notice Sets presale contract address
