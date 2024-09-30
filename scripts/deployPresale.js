@@ -13,7 +13,7 @@ async function verify(address, constructorArguments) {
 async function main() {
   const owner = process.env.OWNER;
   const usdt = "0x6fea2f1b82afc40030520a6c49b0d3b652a65915";
-  const vionft = "0x35CbA5f92cBc19c04Aa5E266a1cfF6cb668dD75B";
+  const vionft = "0xeDc5EB8be423C42A020c47Ac6689eDc8aE7E0b9c";
   const pricefeed = "0x694aa1769357215de4fac081bf1f309adc325306";
 
   const VionNFT = await hre.ethers.deployContract("VionNFTPresale", [

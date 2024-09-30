@@ -102,12 +102,17 @@ contract VionNFTPresale is Ownable2Step {
 
         uint256 priceInEth = (NFT_PRICE * (10 ** NORMALIZATION_FACTOR)) /
             getLatestPrice();
+        uint256 totalAmount = quantity * priceInEth;
 
-        if (msg.value < quantity * priceInEth) {
+        if (msg.value < totalAmount) {
             revert IncorrectInvestmentAmount();
         }
 
-        payable(fundsWallet).sendValue(priceInEth);
+        payable(fundsWallet).sendValue(totalAmount);
+        if (msg.value > totalAmount) {
+            payable(msg.sender).sendValue(msg.value - totalAmount);
+        }
+
         vioNFT.mint(msg.sender, quantity);
         emit PurchasedNFTWithETH({by: msg.sender, quantity: quantity});
     }
