@@ -36,7 +36,7 @@ contract VionNFTPresale is Ownable2Step {
     IERC20 public immutable USDT;
 
     /// @notice The address of the vion nft
-    IVionNFT public vioNFT;
+    IVionNFT public vionNFT;
 
     /// @notice The address of the pricefeed contract
     AggregatorV3Interface public priceFeed;
@@ -88,7 +88,7 @@ contract VionNFTPresale is Ownable2Step {
         }
 
         USDT = usdt;
-        vioNFT = vioNFTAddress;
+        vionNFT = vioNFTAddress;
         fundsWallet = fundsWalletAddress;
         priceFeed = priceFeedAddress;
     }
@@ -96,7 +96,7 @@ contract VionNFTPresale is Ownable2Step {
     /// @notice Purchases NFT with ETH
     /// @param quantity The number of the nfts you want to purchase
     function purchaseNFWithETH(uint256 quantity) external payable {
-        if (quantity + vioNFT.totalSupply() >= TOTAL_NFTS) {
+        if (quantity + vionNFT.totalSupply() >= TOTAL_NFTS) {
             revert MaxNftsMinted(TOTAL_NFTS - quantity);
         }
 
@@ -113,19 +113,19 @@ contract VionNFTPresale is Ownable2Step {
             payable(msg.sender).sendValue(msg.value - totalAmount);
         }
 
-        vioNFT.mint(msg.sender, quantity);
+        vionNFT.mint(msg.sender, quantity);
         emit PurchasedNFTWithETH({by: msg.sender, quantity: quantity});
     }
 
     /// @notice Purchases NFT with USDT
     /// @param quantity The number of the nfts you want to purchase
     function purchaseNFTWithUSDT(uint256 quantity) external {
-        if (quantity + vioNFT.totalSupply() >= TOTAL_NFTS) {
+        if (quantity + vionNFT.totalSupply() >= TOTAL_NFTS) {
             revert MaxNftsMinted(TOTAL_NFTS - quantity);
         }
 
         USDT.safeTransferFrom(msg.sender, fundsWallet, (quantity * NFT_PRICE));
-        vioNFT.mint(msg.sender, quantity);
+        vionNFT.mint(msg.sender, quantity);
         emit PurchasedNFTWithUSDT({by: msg.sender, quantity: quantity});
     }
 
